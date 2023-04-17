@@ -11,6 +11,7 @@ const App = () => {
                 userName="mohammedsulthan"
                 userSecret="123456"/>
                 renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
+                <ChatFeed/>
         </div>
     )
 }
