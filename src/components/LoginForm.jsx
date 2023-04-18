@@ -1,58 +1,49 @@
-import React from 'react'
-import { useState } from 'react'
-import axios from 'axios'
-const LoginForm = () => {
-    const [username, setusername] = useState('')
-    const [password, setpassword] = useState('')
-    const [error, seterror] = useState('')
+import { useState } from 'react';
+import axios from 'axios';
+
+const projectID = 'f510caa1-fc6a-43d3-b4bd-0b9e2c87301f';
+
+const Modal = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const authObject = {
-            'Project-ID': '9a3e9b95-fb35-45b9-9053-5ab8956772b8',
-            'User-Name': username,
-            'User-Secret': password
-        }
+        const authObject = { 'Project-ID': projectID, 'User-Name': username, 'User-Secret': password };
 
         try {
             await axios.get('https://api.chatengine.io/chats', { headers: authObject });
-            localStorage.setItem('chatengineusername', username);
-            localStorage.setItem('chatenginepassword', password);
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', password);
 
             window.location.reload();
-
-        } catch (error) {
-            seterror('Oops, incorrect Details')
+            setError('');
+        } catch (err) {
+            setError('Oops, incorrect credentials.');
         }
-    }
+    };
 
     return (
-        <>
-            <div className='wrapper'>
-
-                <div className="form">
-                    <h1 className="title">Talk Together</h1>
-                    <h1 className="title" style={{ fontSize: 'large' }}>Chat Application</h1>
-                    <a href="https://github.com/sulthan441/ChatApp"
-                        style={{ textDecoration: "none", margin: '50px', textAlign: 'center' }}
-                        target="__blank"><h2>For Login Credentials go through my  Github Repo  <i class="fa-brands fa-github"></i> </h2></a>
-
-
-                    <form action="" onSubmit={handleSubmit}>
-                        <input type="text" value={username} onChange={(e) => setusername(e.target.value)} className='input' placeholder='Username' required />
-                        <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className='input' placeholder='Password' required />
-                        <div align='center'>
-                            <button type='submit' className='button'>
-                                <span>Start Chatting</span>
-                            </button>
-                        </div>
-                        <h2 className='error'>{error}</h2>
-                    </form>
-                </div>
-
+        <div className="wrapper">
+            <div className="form">
+                <h1 className="title">Chat Application</h1>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="Username" required />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Password" required />
+                    <div align="center">
+                        <button type="submit" className="button">
+                            <span>Start chatting</span>
+                        </button>
+                    </div>
+                </form>
+                <h1>{error}</h1>
             </div>
-        </>
-    )
-}
+        </div>
 
-export default LoginForm
+    );
+};
+
+export default Modal;
